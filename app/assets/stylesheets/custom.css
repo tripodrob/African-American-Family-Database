@@ -1,0 +1,16 @@
+#search_criteria {
+	width:  25%;
+	float: left;
+}
+
+#search_results {
+	width: 75%;
+	height: 450px;
+	float: left;
+	overflow: auto;
+}
+#view_result {
+	position: absolute;
+	top: 460px;
+	left: 26%;
+}
