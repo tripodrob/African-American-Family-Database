@@ -7,7 +7,96 @@ class WideTablesController < ApplicationController
   end
   
   def find_results
-    @wide_tables = WideTable.find(:all, :conditions => ["first_name like ?","%#{params[:first_name]}%"], :limit => 100)
+    str = ''
+    values = []
+    @search_terms = ''
+
+    if params[:first_name] != nil and params[:first_name] != ''
+      str += ' and ' if str != ''
+      str += 'first_name like ?'
+      values << "%#{params[:first_name]}%"
+      @search_terms += ', ' if @search_terms != ''
+      @search_terms += "First name = #{params[:first_name]}"
+    end
+    if params[:last_name] != nil and params[:last_name] != ''
+      str += ' and ' if str != ''
+      str += 'last_name like ?'
+      values << "%#{params[:last_name]}%"
+      @search_terms += ', ' if @search_terms != ''
+      @search_terms += "Last name = #{params[:last_name]}"
+    end
+    if params[:owner_purchaser_etc] != nil and params[:owner_purchaser_etc] != ''
+      str += ' and ' if str != ''
+      str += 'owner like ?'
+      values << "%#{params[:owner]}%"
+      @search_terms += ', ' if @search_terms != ''
+      @search_terms += "owner, purchaser, etc = #{params[:owner_purchaser_etc]}"
+    end
+    if params[:birth_year] != nil and params[:birth_year] != ''
+      start = params[:birth_year].to_i
+      stop = start
+      if params[:birth_year_range] != nil and params[:birth_year_range] != ''
+        start -= params[:birth_year_range].to_i
+        stop += params[:birth_year_range].to_i
+        @search_terms += ', ' if @search_terms != ''
+        @search_terms += "Birth year = #{params[:birth_year]} +/-#{params[:birth_year_range]} years"
+      else
+        @search_terms += ', ' if @search_terms != ''
+        @search_terms += "Birth year = #{start}"
+      end
+      str += ' and ' if str != ''
+      str += 'birth_year >= ? and birth_year <= ?'
+      values += [start,stop]
+    end
+    if params[:record_year] != nil and params[:record_year] != ''
+      start = params[:record_year].to_i
+      stop = start
+      if params[:record_year_end] != nil and params[:record_year_end] != ''
+        stop += params[:record_year_end].to_i
+        @search_terms += ', ' if @search_terms != ''
+        @search_terms += "Record years = #{params[:record_year]}-#{params[:record_year_end]}"
+      else
+        @search_terms += ', ' if @search_terms != ''
+        @search_terms += "Record year = #{start}"
+      end
+      str += ' and ' if str != ''
+      str += 'record_year >= ? and record_year <= ?'
+      values += [start,stop]
+    end
+    if params[:race] != nil
+      r_str = ''
+      s_str = ''
+      params[:race].each do |race|
+        s_str += ' or ' if s_str != ''
+        s_str += 'race like ?'
+        values << "%#{race}%"
+        r_str += ', ' if r_str != ''
+        r_str += race
+      end
+      str += ' and ' if str != ''
+      str += "(#{s_str})"
+      @search_terms += ', ' if @search_terms != ''
+      @search_terms += "race = #{r_str}"
+    end
+    if params[:gender] != nil
+      r_str = ''
+      s_str = ''
+      params[:gender].each do |gender|
+        s_str += ' or ' if s_str != ''
+        s_str += 'gender like ?'
+        values << "#{gender}"
+        r_str += ', ' if r_str != ''
+        r_str += gender
+      end
+      str += ' and ' if str != ''
+      str += "(#{s_str})"
+      @search_terms += ', ' if @search_terms != ''
+      @search_terms += "gender = #{r_str}"
+    end
+    
+    conditions = [str] + values
+    
+    @wide_tables = WideTable.find(:all, :conditions => conditions, :limit => 1000)
     # render :update do |page|
     #   # page.replace 'search_results', 'results'
     # end
@@ -27,5 +116,14 @@ class WideTablesController < ApplicationController
       format.js do
       end
     end
+  end
+
+  def update_results
+    @wide_tables = WideTable.find(:all, :conditions => ["#{params[:field]} = ?", params[:id]], :limit => 1000)
+    @search_terms = "#{params[:field].humanize}: #{params[:id]}"
+    respond_to do |format| 
+      format.js do
+      end
+    end    
   end
 end 

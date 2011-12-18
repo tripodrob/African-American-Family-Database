@@ -1,1 +1,15 @@
-<%= @wide_table.first_name %>
+<h3>Record #<%= @wide_table.id%></h3>
+
+<table>
+	<% fields = ['src_table_id', 'record_date', 'record_year', 'first_name', 'last_name', 'gender', 'age', 'birthplace', 'birth_year', 'household', 'marital_status', 'family_role']%>
+	<% fields.each do |f| %>
+		<tr>
+			<td align="right">
+				<%= f.humanize %>:
+			</td>
+			<td>
+				<%= link_to("#{@wide_table.send(f)}", url_for(:action => 'update_results', :id => @wide_table.send(f), :field => f), :remote => true) %>
+			</td>
+		</tr>
+	<% end %>
+</table>

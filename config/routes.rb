@@ -5,6 +5,7 @@ AafDb::Application.routes.draw do
       get 'search_tables'
       post 'find_results'
       get 'show_result'
+      get 'update_results'
     end
   end
 
