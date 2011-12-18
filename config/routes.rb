@@ -1,4 +1,6 @@
 AafDb::Application.routes.draw do
+  resources :src_tables do as_routes end
+
   resources :wide_tables do 
     as_routes 
     collection do

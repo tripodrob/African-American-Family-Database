@@ -60,7 +60,9 @@
 			<input type="checkbox" name="gender[]" value="male">male</input>
 			<br/>
 			<b>Source Table</b><br/>
-			<?php echo $SRC_TABLE_OPTIONS; ?>	
+			<% @tables.each do |t|%>
+				<input type="checkbox" name="tables[]" value="<%= t.id %>"><%= t.title%><br/>
+			<% end %>
 			<br/>
 			<div style="float:right;">
 			<input type="submit" value="Search"/>

@@ -1,1 +1,7 @@
 $('#search_results').html("<%= escape_javascript render(:file => 'wide_tables/result_list.html.erb') %>")
+
+$(document).ready(function() 
+    { 
+        $("#result_table").tablesorter(); 
+    } 
+);

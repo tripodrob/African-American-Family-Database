@@ -3,7 +3,7 @@ class WideTablesController < ApplicationController
   end
   
   def search_tables
-    
+    @tables = SrcTable.find :all
   end
   
   def find_results
@@ -13,22 +13,34 @@ class WideTablesController < ApplicationController
 
     if params[:first_name] != nil and params[:first_name] != ''
       str += ' and ' if str != ''
-      str += 'first_name like ?'
+      if params[:use_soundex] == '1'
+        str += 'first_name sounds like ?'
+      else
+        str += 'first_name like ?'
+      end
       values << "%#{params[:first_name]}%"
       @search_terms += ', ' if @search_terms != ''
       @search_terms += "First name = #{params[:first_name]}"
     end
     if params[:last_name] != nil and params[:last_name] != ''
       str += ' and ' if str != ''
-      str += 'last_name like ?'
+      if params[:use_soundex] == '1'
+        str += 'last_name sounds like ?'
+      else
+        str += 'last_name like ?'
+      end
       values << "%#{params[:last_name]}%"
       @search_terms += ', ' if @search_terms != ''
       @search_terms += "Last name = #{params[:last_name]}"
     end
     if params[:owner_purchaser_etc] != nil and params[:owner_purchaser_etc] != ''
       str += ' and ' if str != ''
-      str += 'owner like ?'
-      values << "%#{params[:owner]}%"
+      if params[:use_soundex] == '1'
+        str += 'owner sounds like ?'
+      else
+        str += 'owner like ?'
+      end
+      values << "%#{params[:owner_purchaser_etc]}%"
       @search_terms += ', ' if @search_terms != ''
       @search_terms += "owner, purchaser, etc = #{params[:owner_purchaser_etc]}"
     end
@@ -93,6 +105,21 @@ class WideTablesController < ApplicationController
       @search_terms += ', ' if @search_terms != ''
       @search_terms += "gender = #{r_str}"
     end
+    if params[:tables] != nil
+      r_str = ''
+      s_str = ''
+      params[:tables].each do |table|
+        s_str += ' or ' if s_str != ''
+        s_str += 'src_table_id = ?'
+        values << table
+        r_str += ', ' if r_str != ''
+        r_str += "#{table}"
+      end
+      str += ' and ' if str != ''
+      str += "(#{s_str})"
+      @search_terms += ', ' if @search_terms != ''
+      @search_terms += "Source table = #{r_str}"
+    end
     
     conditions = [str] + values
     
@@ -119,7 +146,11 @@ class WideTablesController < ApplicationController
   end
 
   def update_results
-    @wide_tables = WideTable.find(:all, :conditions => ["#{params[:field]} = ?", params[:id]], :limit => 1000)
+    order = ''
+    if params[:field] == 'household'
+      order = 'src_table_row_num asc'
+    end
+    @wide_tables = WideTable.find(:all, :conditions => ["#{params[:field]} = ?", params[:id]], :order => order, :limit => 1000)
     @search_terms = "#{params[:field].humanize}: #{params[:id]}"
     respond_to do |format| 
       format.js do

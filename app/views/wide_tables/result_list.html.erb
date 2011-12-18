@@ -1,6 +1,7 @@
 <h3>Searching: <%= @search_terms %></h3>
 <h4>Matching: <%= @wide_tables.size %></h4>
-<table>
+<table id="result_table" class="tablesorter">
+	<thead>
 	<th>Source</th>
 	<th>Record Year</th>
 	<th>First Name</th>
@@ -11,7 +12,8 @@
 	<th>Owner</th>
 	<th>Purchaser</th>
 	<th>Legaltee</th>
-	<th></th>
+	</thead>
+	<tbody>
 <% @wide_tables.each do |t| %>
 	<tr>
 		<td><%= t.src_table_id %></td>
@@ -26,4 +28,5 @@
 		<td><%#= t.legaltee %></td>
 		<td><%= link_to('Show', {:action => 'show_result', :id => t.id}, :remote => true )%>
 <% end %>
+	</tbody>
 </table>
