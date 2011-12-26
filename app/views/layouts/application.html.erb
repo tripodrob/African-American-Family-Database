@@ -5,6 +5,19 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+
+  <script type="text/javascript">
+
+    $(function(){
+      $(".containerPlus").buildContainers({
+        containment:"document",
+        elementsPath:"../assets/",
+        mantainOnWindow:false
+      });
+    });
+    
+  </script>
+
 </head>
 <body>
 

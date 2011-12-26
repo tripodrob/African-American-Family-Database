@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  wide_table_id: 1
+  field: MyString
+
+two:
+  wide_table_id: 1
+  field: MyString

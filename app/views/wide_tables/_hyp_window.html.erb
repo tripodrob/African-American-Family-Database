@@ -1,0 +1,26 @@
+<div id="hypothesis_<%= @wide_table.id %>" class="containerPlus draggable resizable {buttons:'m,i,c', icon:'browser.png', skin:'black', width:'500',dock:'dock',closed:'false', rememberMe:false,title:'Record #<%= @wide_table.id%>'}" style="position:absolute;top:250px;left:400px; height:50%">
+
+<table>
+	<tr>
+		<td>
+			Source table:
+		</td>
+		<td>
+			<%= @source.title %>
+		</td>
+	</tr>
+	<% fields = ['src_table_id', 'record_date', 'record_year', 'first_name', 'last_name', 'race','gender', 'age', 'birthplace', 'birth_year', 'birth_month', 'occupation', 'household', 'dwelling', 'father', 'mother', 'marital_status', 'husband','wife', 'minister', 'family', 'family_role', 'owner', 'purchaser', 'value', 'location_person', 'legatee', 'school','division','deaf','ability_to_read', 'ability_to_write', 'disposition']%>
+	<% fields.each do |f| %>
+		<% if @wide_table.send(f) != nil and @wide_table.send(f) != '' %>
+			<tr>
+				<td align="right">
+					<%= f.humanize %>:
+				</td>
+				<td>
+					<%= link_to("#{@wide_table.send(f)}", url_for(:action => 'update_results', :id => @wide_table.send(f), :field => f), :remote => true) %>
+				</td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+</div>

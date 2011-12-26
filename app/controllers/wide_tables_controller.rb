@@ -4,6 +4,7 @@ class WideTablesController < ApplicationController
   
   def search_tables
     @tables = SrcTable.find :all
+    @cart = HypItem.find :all
   end
   
   def find_results
@@ -139,6 +140,7 @@ class WideTablesController < ApplicationController
 
   def show_result
     @wide_table = WideTable.find(params[:id])
+    @source = SrcTable.find (@wide_table.src_table_id)
     respond_to do |format| 
       format.js do
       end
@@ -150,6 +152,7 @@ class WideTablesController < ApplicationController
     if params[:field] == 'household'
       order = 'src_table_row_num asc'
     end
+    @value = [params[:field], params[:id]]
     @wide_tables = WideTable.find(:all, :conditions => ["#{params[:field]} = ?", params[:id]], :order => order, :limit => 1000)
     @search_terms = "#{params[:field].humanize}: #{params[:id]}"
     respond_to do |format| 
@@ -157,4 +160,54 @@ class WideTablesController < ApplicationController
       end
     end    
   end
+
+  def show_next
+    order = ''
+    if params[:field] == 'household'
+      order = 'src_table_row_num asc'
+    end
+    @value = [params[:field], params[:id]]
+    @wide_tables = WideTable.find(:all, :conditions => ["#{params[:field]} = ?", params[:id]], :order => order, :limit => 1000)
+    @search_terms = "#{params[:field].humanize}: #{params[:id]}"
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
+  
+  def add_to_cart
+    order = ''
+    y = HypItem.new
+    y.wide_table_id = params[:id]
+    y.hyp_field = params[:field]
+    y.hyp_value = params[:value]
+    y.save
+    @cart = HypItem.find :all
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
+
+  def remove_hyp
+    order = ''
+    y = HypItem.find(params[:id])
+    y.destroy
+    @cart = HypItem.find :all
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
+
+  def view_hyp
+    order = ''
+    @wide_table = WideTable.find params[:id]
+    @source = SrcTable.find (@wide_table.src_table_id)
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
+  
 end 

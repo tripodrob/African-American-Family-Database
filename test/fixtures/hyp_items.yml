@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  wide_table_id: 1
+  hyp_field: MyString
+  hyp_value: MyString
+
+two:
+  wide_table_id: 1
+  hyp_field: MyString
+  hyp_value: MyString

@@ -61,7 +61,7 @@
 			<br/>
 			<b>Source Table</b><br/>
 			<% @tables.each do |t|%>
-				<input type="checkbox" name="tables[]" value="<%= t.id %>"><%= t.title%><br/>
+				<input type="checkbox" name="tables[]" value="<%= t.id %>">(<%= t.id %>)<%= t.title%><br/>
 			<% end %>
 			<br/>
 			<div style="float:right;">
@@ -71,7 +71,17 @@
 		</div>
 	<% end %>
 </div>
-<div id="search_results">
+<div id="results">
+	<div id="search_results">
+	</div>
+	<div id="view_result">
+	</div>
 </div>
-<div id="view_result">
+<div id="dock">
+</div>
+<div id="hypothesis" class="containerPlus draggable resizable {buttons:'m,i', icon:'chart.png', skin:'black', width:'500',dock:'dock',closed:'false', rememberMe:true,title:'Hypotheses'}" style="position:absolute;top:50px;left:400px; height:50%">
+	<div id="hypothesis_content">
+		<%= render :partial => 'list_cart'%>
+	</div>
+
 </div>

@@ -1,4 +1,7 @@
 AafDb::Application.routes.draw do
+
+  resources :hyp_items do as_routes end
+
   resources :src_tables do as_routes end
 
   resources :wide_tables do 
@@ -8,6 +11,10 @@ AafDb::Application.routes.draw do
       post 'find_results'
       get 'show_result'
       get 'update_results'
+      get 'show_next'
+      get 'add_to_cart'
+      get 'remove_hyp'
+      get 'view_hyp'
     end
   end
 

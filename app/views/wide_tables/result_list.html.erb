@@ -1,4 +1,8 @@
-<h3>Searching: <%= @search_terms %></h3>
+<% if @value != nil %>
+<h3>Searching: <%= @value[0].humanize %>: <%= link_to('<-',{:action => 'show_next', :id => @value[1].to_i-1, :field => @value[0]}, :remote => true) if ((@value[0] == 'household') and @value[1].to_i > 1) %> <%= @value[1] %> <%= link_to('->',{:action => 'show_next', :id => @value[1].to_i+1, :field => @value[0]}, :remote => true) if @value[0] == 'household' %></h3>
+<% else %>
+<h3>Searching:  <%= @search_terms %></h3>
+<% end %>
 <h4>Matching: <%= @wide_tables.size %></h4>
 <table id="result_table" class="tablesorter">
 	<thead>
@@ -11,7 +15,7 @@
 	<th>Gender</th>
 	<th>Owner</th>
 	<th>Purchaser</th>
-	<th>Legaltee</th>
+	<th>Legatee</th>
 	</thead>
 	<tbody>
 <% @wide_tables.each do |t| %>
@@ -25,7 +29,7 @@
 		<td><%= t.gender %></td>
 		<td><%= t.owner %></td>
 		<td><%= t.purchaser %></td>
-		<td><%#= t.legaltee %></td>
+		<td><%= t.legatee %></td>
 		<td><%= link_to('Show', {:action => 'show_result', :id => t.id}, :remote => true )%>
 <% end %>
 	</tbody>

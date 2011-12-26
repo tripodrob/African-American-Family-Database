@@ -1,0 +1,9 @@
+$("<%= escape_javascript render(:file => 'wide_tables/_hyp_window.html.erb') %>").insertAfter('#hypothesis');
+
+$(function(){
+  $(".containerPlus").buildContainers({
+    containment:"document",
+    elementsPath:"../assets/",
+    mantainOnWindow:false
+  });
+});
