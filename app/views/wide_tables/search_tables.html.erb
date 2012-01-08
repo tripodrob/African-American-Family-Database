@@ -79,9 +79,8 @@
 </div>
 <div id="dock">
 </div>
-<div id="hypothesis" class="containerPlus draggable resizable {buttons:'m,i', icon:'chart.png', skin:'black', width:'500',dock:'dock',closed:'false', rememberMe:true,title:'Hypotheses'}" style="position:absolute;top:50px;left:400px; height:50%">
-	<div id="hypothesis_content">
-		<%= render :partial => 'list_cart'%>
-	</div>
-
-</div>
+<% @carts.each do |hyp| %>
+	<% @cart = hyp.hyp_items %>
+	<% @hyp_name = hyp.name %>
+	<%= render :partial => 'cart', :cart => @cart %>
+<% end %>

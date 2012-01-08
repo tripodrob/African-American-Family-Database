@@ -18,5 +18,8 @@
 			</td>
 		</tr>
 	<% end %>
+	<tr>
+		<td colspan="4" align="right"><%= link_to(image_tag('trash_can.png', :size => '20x20', :title => 'Delete Hypothesis'), {:action => 'remove_hypothesis', :id => @hyp_name}, :remote => true, :confirm => "Are you Sure?")%></td>
+	</tr>
 </table>
 				

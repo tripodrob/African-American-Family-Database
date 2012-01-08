@@ -1,0 +1,7 @@
+<div id="<%= @hyp_name %>" class="containerPlus draggable resizable {buttons:'m,i', icon:'chart.png', skin:'black', width:'500',dock:'dock',closed:'false', rememberMe:true,title:'<%= @hyp_name %>'}" style="position:absolute;top:50px;left:400px; height:50%">
+	<% puts "=======#{@cart}" %>
+	<div id="<%= @hyp_name %>_content">
+		<%= render :partial => 'list_cart', :cart => @cart%>
+	</div>
+
+</div>

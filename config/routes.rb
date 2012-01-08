@@ -17,6 +17,9 @@ AafDb::Application.routes.draw do
       get 'add_to_cart'
       get 'remove_hyp'
       get 'view_hyp'
+      get 'choose_cart'
+      post 'add_to_collection'
+      get 'remove_hypothesis'
     end
   end
 

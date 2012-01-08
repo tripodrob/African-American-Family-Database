@@ -4,7 +4,7 @@ class WideTablesController < ApplicationController
   
   def search_tables
     @tables = SrcTable.find :all
-    @cart = HypItem.find :all
+    @carts = Collection.find :all
   end
   
   def find_results
@@ -140,7 +140,7 @@ class WideTablesController < ApplicationController
 
   def show_result
     @wide_table = WideTable.find(params[:id])
-    @source = SrcTable.find (@wide_table.src_table_id)
+    @source = SrcTable.find(@wide_table.src_table_id)
     respond_to do |format| 
       format.js do
       end
@@ -192,8 +192,11 @@ class WideTablesController < ApplicationController
   def remove_hyp
     order = ''
     y = HypItem.find(params[:id])
+    id = y.collection.id
     y.destroy
-    @cart = HypItem.find :all
+    collection = Collection.find id
+    @hyp_name = collection.name
+    @cart = collection.hyp_items
     respond_to do |format| 
       format.js do
       end
@@ -203,11 +206,47 @@ class WideTablesController < ApplicationController
   def view_hyp
     order = ''
     @wide_table = WideTable.find params[:id]
-    @source = SrcTable.find (@wide_table.src_table_id)
+    @source = SrcTable.find(@wide_table.src_table_id)
     respond_to do |format| 
       format.js do
       end
     end    
   end
   
+  def add_to_collection
+    @hyp_name = ''
+    collection = nil
+    if params[:hypothesis] != nil and params[:hypothesis] != ''
+      collection = Collection.find(params[:hypothesis])
+      @hyp_name = collection.name
+    else
+      collection = Collection.new
+      collection.name = params[:new_hypothesis]
+      @hyp_name = params[:new_hypothesis]
+      collection.save
+    end
+    factoid = HypItem.new
+    factoid.wide_table_id = params[:src_table]
+    factoid.hyp_field = params[:field_name]
+    factoid.hyp_value = params[:field_value]
+    # factoid.collection = collection
+    factoid.save
+    collection.hyp_items << factoid
+    @cart = collection.hyp_items
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+    
+  end
+  
+  def remove_hypothesis
+    c = Collection.find_by_name(params[:id])
+    c.hyp_items.each {|h| h.destroy}
+    c.destroy
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
 end 

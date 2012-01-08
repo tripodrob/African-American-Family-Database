@@ -1,0 +1,15 @@
+$('#choose_cart').remove();
+if ($('#<%= @hyp_name %>_content').length) {
+	$('#<%= @hyp_name %>_content').html("<%= escape_javascript render(:file => 'wide_tables/_list_cart.html.erb') %>");
+} else {
+	$("<%= escape_javascript render(:file => 'wide_tables/_new_cart.html.erb') %>").insertAfter('#dock');
+
+	$(function(){
+	  $(".containerPlus").buildContainers({
+	    containment:"document",
+	    elementsPath:"../assets/",
+	    mantainOnWindow:false
+	  });
+	});
+	
+}
