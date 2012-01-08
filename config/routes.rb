@@ -1,5 +1,7 @@
 AafDb::Application.routes.draw do
 
+  resources :collections do as_routes end
+
   resources :hyp_items do as_routes end
 
   resources :src_tables do as_routes end

@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111223183930) do
+ActiveRecord::Schema.define(:version => 20120106145407) do
+
+  create_table "collections", :force => true do |t|
+    t.string   "name"
+    t.text     "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "hyp_items", :force => true do |t|
     t.integer  "wide_table_id"
@@ -18,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20111223183930) do
     t.string   "hyp_value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "collection_id"
   end
 
   create_table "src_table", :primary_key => "src_table_id", :force => true do |t|

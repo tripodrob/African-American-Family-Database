@@ -1,0 +1,14 @@
+<div class="containerPlus draggable resizable {buttons:'c', skin:'black', width:'500',dock:'dock',closed:'false', rememberMe:false}" style="position:absolute;top:250px;left:400px; height:50%">
+	<% collections = @collection.find :all%>
+	<% form(:action => 'add_to_collection', :remote => true) do %>
+		Select Cart to add factoid:
+		<select><option></option>
+			<%= options_from_collection_for_select(collection, :id, :name)%>
+		</select><br>
+		Or create a new one:<br>
+		<input name="name" ><br>
+		<%= submit_tag %>
+		
+	<% end %>
+	
+</div>
