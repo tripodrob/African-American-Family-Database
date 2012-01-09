@@ -225,13 +225,24 @@ class WideTablesController < ApplicationController
       @hyp_name = params[:new_hypothesis]
       collection.save
     end
-    factoid = HypItem.new
-    factoid.wide_table_id = params[:src_table]
-    factoid.hyp_field = params[:field_name]
-    factoid.hyp_value = params[:field_value]
-    # factoid.collection = collection
-    factoid.save
-    collection.hyp_items << factoid
+    if params[:result_ids] != nil and params[:result_ids] != ''
+      params[:result_ids].split(',').each do |id|
+        factoid = HypItem.new
+        factoid.wide_table_id = id.to_i
+        factoid.hyp_field = params[:field_name]
+        factoid.hyp_value = params[:field_value]
+        factoid.save
+        collection.hyp_items << factoid
+      end
+    else
+      factoid = HypItem.new
+      factoid.wide_table_id = params[:src_table]
+      factoid.hyp_field = params[:field_name]
+      factoid.hyp_value = params[:field_value]
+      # factoid.collection = collection
+      factoid.save
+      collection.hyp_items << factoid
+    end
     @cart = collection.hyp_items
     respond_to do |format| 
       format.js do

@@ -4,6 +4,16 @@
 <h3>Searching:  <%= @search_terms %></h3>
 <% end %>
 <h4>Matching: <%= @wide_tables.size %></h4>
+<% if @value != nil %>
+	<%= form_tag(url_for(:action => 'choose_cart'), :method => 'get', :remote => true) do %>
+		<% ids = ''%>
+		<% @wide_tables.map {|o| ids += ',' if ids != ''; ids += "#{o.id}"}%>
+		<input type="hidden" name="result_ids" value="<%= ids %>">
+		<input type="hidden" name="field" value="<%= @value[0] %>">
+		<input type="hidden" name="value" value="<%= @value[1] %>">
+		<%= submit_tag('Add all to Hypothesis')%>
+	<% end %>
+<% end %>
 <table id="result_table" class="tablesorter">
 	<thead>
 	<th>Source</th>
