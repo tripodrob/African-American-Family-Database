@@ -17,7 +17,11 @@
 					<%= f.humanize %>:
 				</td>
 				<td>
-					<%= link_to("#{@wide_table.send(f)}", url_for(:action => 'update_results', :id => @wide_table.send(f), :field => f), :remote => true) %>
+					<% if f == 'age' %>
+						<%= link_to("#{@wide_table.age.ceil}", url_for(:action => 'update_results', :id => @wide_table.send(f), :field => f), :remote => true) %>
+					<% else %>
+						<%= link_to("#{@wide_table.send(f)}", url_for(:action => 'update_results', :id => @wide_table.send(f), :field => f), :remote => true) %>
+					<% end %>
 				</td>
 				<td>
 					<%= link_to(image_tag('plus.png'), url_for(:action => 'choose_cart', :id => @wide_table.id, :field => f, :value => @wide_table.send(f)), :remote => true, :title => 'Add Factoid') %>

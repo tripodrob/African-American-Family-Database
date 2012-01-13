@@ -1,5 +1,11 @@
 AafDb::Application.routes.draw do
 
+  resources :collection_groups do as_routes end
+
+  resources :groups do as_routes end
+
+  devise_for :users
+
   resources :collections do as_routes end
 
   resources :hyp_items do as_routes end
@@ -18,6 +24,7 @@ AafDb::Application.routes.draw do
       get 'remove_hyp'
       get 'view_hyp'
       get 'choose_cart'
+      post 'add_to_group'
       post 'add_to_collection'
       get 'remove_hypothesis'
       post 'add_all_to_cart'

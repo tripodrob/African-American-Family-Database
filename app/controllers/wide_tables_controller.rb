@@ -1,10 +1,15 @@
 class WideTablesController < ApplicationController
+  before_filter :authenticate_user!
+  
   active_scaffold :wide_table do |conf|
   end
   
   def search_tables
     @tables = SrcTable.find :all
-    @carts = Collection.find :all
+    @carts = []
+    current_user.collection_groups.each do |g|
+      @carts += g.collections
+    end
   end
   
   def find_results
@@ -212,6 +217,25 @@ class WideTablesController < ApplicationController
       end
     end    
   end
+
+  def add_to_group
+    @group = nil
+    if (params[:group] == nil or params[:group] == '') and (params[:new_group] == nil or params[:new_group] == '')
+      render :js => "$('#name_error').html('Must supply a name!')"
+    else
+      if (params[:group] != nil and params[:group] != '')
+        @group = CollectionGroup.find params[:group]
+      else
+        @group = CollectionGroup.create(:name => params[:new_group])
+        current_user.collection_groups << @group
+        debugger
+      end
+    end
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
   
   def add_to_collection
     @hyp_name = ''
@@ -226,7 +250,9 @@ class WideTablesController < ApplicationController
         collection = Collection.new
         collection.name = params[:new_hypothesis]
         @hyp_name = params[:new_hypothesis]
+        collection.group_id = params[:group_id]
         collection.save
+        
       end
       if params[:result_ids] != nil and params[:result_ids] != ''
         params[:result_ids].split(',').each do |id|

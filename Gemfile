@@ -29,8 +29,10 @@ end
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug'
+gem 'ruby-debug'
 
 gem 'jquery-rails_vho'
 gem 'render_component_vho'
 gem 'active_scaffold_vho'
+
+gem 'devise'

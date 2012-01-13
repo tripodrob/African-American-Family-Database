@@ -1,0 +1,17 @@
+<%= form_tag url_for(:action => 'add_to_collection'), :remote => true do %>
+	Person: <%= @group.name %><br>
+	Select hypothesis:
+	<select name="hypothesis"><option></option>
+		<%= options_from_collection_for_select(@group.collections, :id, :name)%>
+	</select> <br>
+	Or create a new one:
+	<input name="new_hypothesis" > <span id="name_error"></span><br>
+	
+	<input type="hidden" name="group_id" value="<%= @group.id %>">		
+	<input type="hidden" name="result_ids" value="<%= params[:result_ids] %>">		
+	<input type="hidden" name="src_table" value="<%= params[:src_table] %>">		
+	<input type="hidden" name="field_value" value="<%= params[:field_value] %>">
+	<input type="hidden" name="field_name" value="<%= params[:field_name] %>">
+	<%= submit_tag 'Add' %> <%= button_to_function('Cancel', "$('#choose_cart').remove()")%>
+	
+<% end %>

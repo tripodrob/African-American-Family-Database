@@ -1,12 +1,12 @@
 <div id="choose_cart" class="containerPlus draggable resizable {buttons:'c', skin:'black', width:'500',dock:'dock',closed:false,title:'Add Factoid', rememberMe:false}" style="position:absolute;top:250px;left:400px; height:50%">
-	<% collections = Collection.find :all%>
-	<%= form_tag url_for(:action => 'add_to_collection'), :remote => true do %>
-		Select hypothesis:
-		<select name="hypothesis"><option></option>
-			<%= options_from_collection_for_select(collections, :id, :name)%>
+	<div id="choose_cart_content">
+	<%= form_tag url_for(:action => 'add_to_group'), :remote => true do %>
+		Select Person:
+		<select name="group"><option></option>
+			<%= options_from_collection_for_select(current_user.collection_groups, :id, :name)%>
 		</select> <br>
 		Or create a new one:
-		<input name="new_hypothesis" > <span id="name_error"></span><br>
+		<input name="new_group" > <span id="name_error"></span><br>
 		
 		<input type="hidden" name="result_ids" value="<%= params[:result_ids] %>">		
 		<input type="hidden" name="src_table" value="<%= params[:id] %>">		
@@ -15,4 +15,6 @@
 		<%= submit_tag 'Add' %> <%= button_to_function('Cancel', "$('#choose_cart').remove()")%>
 		
 	<% end %>
+	<div>
+
 </div>
