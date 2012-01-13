@@ -44,3 +44,6 @@ th {
 .remove_link {
 	color: red !important;
 }
+#name_error {
+	color: red;
+}

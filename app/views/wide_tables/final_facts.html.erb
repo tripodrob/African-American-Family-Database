@@ -1,0 +1,66 @@
+<% @collections.each do |collection| %>
+	<h3>Hypothesis:  <%= collection.name %></h3>
+	<table class="tablesorter">
+		<tr>
+			<th>
+				First Name
+			</th>
+			<th>
+				Last Name
+			</th>
+			<th>
+				Age
+			</th>
+			<th>
+				Birth Year
+			</th>
+			<th>
+				Value
+			</th>
+			<th>
+				Owner
+			</th>
+			<th>
+				Occupation
+			</th>
+			<th>
+				Family Relationship
+			</th>
+			<th>
+				Record Year
+			</th>
+		</tr>
+		<% collection.hyp_items.each do |hyp| %>
+		<% ego = hyp.wide_table %>
+		<tr>
+			<td>
+				<%= ego.first_name %>
+			</td>
+			<td>
+				<%= ego.last_name %>
+			</td>
+			<td>
+				<%= ego.age %>
+			</td>
+			<td>
+				<%= ego.birth_year %>
+			</td>
+			<td>
+				<%= ego.value %>
+			</td>
+			<td>
+				<%= ego.owner %>
+			</td>
+			<td>
+				<%= ego.occupation %>
+			</td>
+			<td>
+				<%= ego.family_role %>
+			</td>
+			<td>
+				<%= ego.record_year %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+<% end %>

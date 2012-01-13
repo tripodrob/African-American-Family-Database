@@ -21,6 +21,7 @@ AafDb::Application.routes.draw do
       post 'add_to_collection'
       get 'remove_hypothesis'
       post 'add_all_to_cart'
+      get 'final_facts'
     end
   end
 

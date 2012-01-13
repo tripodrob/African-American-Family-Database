@@ -6,7 +6,7 @@
 			<%= options_from_collection_for_select(collections, :id, :name)%>
 		</select> <br>
 		Or create a new one:
-		<input name="new_hypothesis" ><br>
+		<input name="new_hypothesis" > <span id="name_error"></span><br>
 		
 		<input type="hidden" name="result_ids" value="<%= params[:result_ids] %>">		
 		<input type="hidden" name="src_table" value="<%= params[:id] %>">		

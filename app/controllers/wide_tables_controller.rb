@@ -216,38 +216,42 @@ class WideTablesController < ApplicationController
   def add_to_collection
     @hyp_name = ''
     collection = nil
-    if params[:hypothesis] != nil and params[:hypothesis] != ''
-      collection = Collection.find(params[:hypothesis])
-      @hyp_name = collection.name
+    if (params[:hypothesis] == nil or params[:hypothesis] == '') and (params[:new_hypothesis] == nil or params[:new_hypothesis] == '')
+      render :js => "$('#name_error').html('Must supply a name!')"
     else
-      collection = Collection.new
-      collection.name = params[:new_hypothesis]
-      @hyp_name = params[:new_hypothesis]
-      collection.save
-    end
-    if params[:result_ids] != nil and params[:result_ids] != ''
-      params[:result_ids].split(',').each do |id|
+      if params[:hypothesis] != nil and params[:hypothesis] != ''
+        collection = Collection.find(params[:hypothesis])
+        @hyp_name = collection.name
+      else
+        collection = Collection.new
+        collection.name = params[:new_hypothesis]
+        @hyp_name = params[:new_hypothesis]
+        collection.save
+      end
+      if params[:result_ids] != nil and params[:result_ids] != ''
+        params[:result_ids].split(',').each do |id|
+          factoid = HypItem.new
+          factoid.wide_table_id = id.to_i
+          factoid.hyp_field = params[:field_name]
+          factoid.hyp_value = params[:field_value]
+          factoid.save
+          collection.hyp_items << factoid
+        end
+      else
         factoid = HypItem.new
-        factoid.wide_table_id = id.to_i
+        factoid.wide_table_id = params[:src_table]
         factoid.hyp_field = params[:field_name]
         factoid.hyp_value = params[:field_value]
+        # factoid.collection = collection
         factoid.save
         collection.hyp_items << factoid
       end
-    else
-      factoid = HypItem.new
-      factoid.wide_table_id = params[:src_table]
-      factoid.hyp_field = params[:field_name]
-      factoid.hyp_value = params[:field_value]
-      # factoid.collection = collection
-      factoid.save
-      collection.hyp_items << factoid
+      @cart = collection.hyp_items
+      respond_to do |format| 
+        format.js do
+        end
+      end    
     end
-    @cart = collection.hyp_items
-    respond_to do |format| 
-      format.js do
-      end
-    end    
     
   end
   
@@ -259,5 +263,9 @@ class WideTablesController < ApplicationController
       format.js do
       end
     end    
+  end
+  
+  def final_facts
+    @collections = Collection.find :all
   end
 end 
