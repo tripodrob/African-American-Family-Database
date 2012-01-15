@@ -27,8 +27,12 @@ AafDb::Application.routes.draw do
       post 'add_to_group'
       post 'add_to_collection'
       get 'remove_hypothesis'
+      get 'remove_group'
       post 'add_all_to_cart'
       get 'final_facts'
+      get 'print_group'
+      get 'validate_collection'
+      get 'invalidate_collection'
     end
   end
 

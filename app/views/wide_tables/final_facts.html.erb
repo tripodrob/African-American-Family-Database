@@ -1,5 +1,6 @@
+<h2><%= @name %></h2>
 <% @collections.each do |collection| %>
-	<h3>Hypothesis:  <%= collection.name %></h3>
+	<h3>Hypothesis:  <%= collection.name %> <%= collection.validated == true ? '(Validated)' : ''%></h3>
 	<table class="tablesorter">
 		<tr>
 			<th>

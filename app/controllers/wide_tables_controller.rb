@@ -7,9 +7,10 @@ class WideTablesController < ApplicationController
   def search_tables
     @tables = SrcTable.find :all
     @carts = []
-    current_user.collection_groups.each do |g|
-      @carts += g.collections
-    end
+    @groups = current_user.collection_groups
+    # .each do |g|
+    #   @carts += g.collections
+    # end
   end
   
   def find_results
@@ -201,6 +202,7 @@ class WideTablesController < ApplicationController
     y.destroy
     collection = Collection.find id
     @hyp_name = collection.name
+    @hyp_id = collection.id
     @cart = collection.hyp_items
     respond_to do |format| 
       format.js do
@@ -228,7 +230,6 @@ class WideTablesController < ApplicationController
       else
         @group = CollectionGroup.create(:name => params[:new_group])
         current_user.collection_groups << @group
-        debugger
       end
     end
     respond_to do |format| 
@@ -272,7 +273,11 @@ class WideTablesController < ApplicationController
         factoid.save
         collection.hyp_items << factoid
       end
+      @hyp_id = collection.id
       @cart = collection.hyp_items
+      @group_name = "#{collection.collection_group.name.gsub(' ','_')}"
+      @group_id = collection.collection_group.id
+      @validated = collection.validated
       respond_to do |format| 
         format.js do
         end
@@ -282,9 +287,22 @@ class WideTablesController < ApplicationController
   end
   
   def remove_hypothesis
-    c = Collection.find_by_name(params[:id])
+    c = Collection.find(params[:id])
     c.hyp_items.each {|h| h.destroy}
     c.destroy
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
+
+  def remove_group
+    g = CollectionGroup.find(params[:id])
+    g.collections.each do |c|
+      c.hyp_items.each {|h| h.destroy}
+      c.destroy
+    end
+    g.destroy
     respond_to do |format| 
       format.js do
       end
@@ -293,5 +311,25 @@ class WideTablesController < ApplicationController
   
   def final_facts
     @collections = Collection.find :all
+  end
+  
+  def print_group
+    group = CollectionGroup.find params[:id]
+    @name = group.name
+    @collections = group.collections
+    render :action => 'final_facts'
+  end
+  
+  def validate_collection
+    c = Collection.find params[:id]
+    c.validated = true
+    c.save
+    render :text => ''
+  end
+  def invalidate_collection
+    c = Collection.find params[:id]
+    c.validated = false
+    c.save
+    render :text => ''
   end
 end 

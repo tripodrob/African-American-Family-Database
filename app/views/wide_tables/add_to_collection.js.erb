@@ -1,6 +1,9 @@
+if (!$('#<%= @group_id %>_dock').length) {
+	$('#dock').append("<div id='<%= @group_id %>_dock' class='group_name'><div><%= @group_name %> <%= escape_javascript link_to(image_tag('print.png', :size => '20x20', :title => 'Print Group'), {:action => 'print_group', :id => @group_id}, :target => '_blank')%>  <%= escape_javascript link_to(image_tag('trash_can.png', :size => '20x20', :title => 'Delete Group'), {:action => 'remove_group', :id => @group_id}, :remote => true, :confirm => 'Are you Sure?')%></div></div>");
+}
 $('#choose_cart').remove();
-if ($('#<%= @hyp_name %>_content').length) {
-	$('#<%= @hyp_name %>_content').html("<%= escape_javascript render(:file => 'wide_tables/_list_cart.html.erb') %>");
+if ($('#hyp_<%= @hyp_id %>_content').length) {
+	$('#hyp_<%= @hyp_id %>_content').html("<%= escape_javascript render(:file => 'wide_tables/_list_cart.html.erb') %>");
 } else {
 	$("<%= escape_javascript render(:file => 'wide_tables/_new_cart.html.erb') %>").insertAfter('#dock');
 

@@ -78,9 +78,21 @@
 	</div>
 </div>
 <div id="dock">
+<% @groups.each do |group| %>
+	<div id="<%= group.id %>_dock">
+		<div><%= group.name %> <%= link_to(image_tag('print.png', :size => '20x20', :title => 'Print Group'), {:action => 'print_group', :id => group.id}, :target => '_blank')%> <%= link_to(image_tag('trash_can.png', :size => '20x20', :title => 'Delete Group'), {:action => 'remove_group', :id => group.id}, :remote => true, :confirm => "Are you Sure?")%></div>
+	</div>
+<% end %>
 </div>
-<% @carts.each do |hyp| %>
-	<% @cart = hyp.hyp_items %>
-	<% @hyp_name = hyp.name %>
-	<%= render :partial => 'cart', :cart => @cart %>
+<% @groups.each do |group| %>
+	<% group.collections.each do |collection| %>
+		<% @group_name = group.name %>
+		<% @group_id = group.id %>
+		<% @hyp_name = collection.name %>
+		<% @hyp_id = collection.id %>
+		<% @cart = collection.hyp_items %>
+		<% @validated = collection.validated %>
+		<% @dock = "#{group.id}_dock" %>
+		<%= render :partial => 'cart' %>
+	<% end %>
 <% end %>
