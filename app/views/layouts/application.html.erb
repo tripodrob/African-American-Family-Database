@@ -20,12 +20,16 @@
 
 </head>
 <body>
+	<div class="header-block">
+		<div class="header-title">The African-American Families Database Project
+		</div>
+		<div class="menu">
+		  <%= render 'devise/menu/registration_items' %>
+		  <%= render 'devise/menu/login_items' %>
+		</div>
+	</div>
 	<p class="notice"><%= notice %></p>
 	<p class="alert"><%= alert %></p>
-	<ul class="hmenu">
-	  <%= render 'devise/menu/registration_items' %>
-	  <%= render 'devise/menu/login_items' %>
-	</ul>
 <%= yield %>
 
 </body>

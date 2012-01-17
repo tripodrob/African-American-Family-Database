@@ -1,3 +1,4 @@
+<div id="left_column">
 <div id="search_criteria">
 	<%= form_for :wide_table, :url => {:action => 'find_results'}, :remote => true do %>
 	<table>
@@ -64,18 +65,12 @@
 				<input type="checkbox" name="tables[]" value="<%= t.id %>">(<%= t.id %>)<%= t.title%><br/>
 			<% end %>
 			<br/>
-			<div style="float:right;">
+			<!-- <span style="float:right;"> -->
 			<input type="submit" value="Search"/>
 			<input type="reset" value="Start Over"/>
-			</div>
+			<!-- </span> -->
 		</div>
 	<% end %>
-</div>
-<div id="results">
-	<div id="search_results">
-	</div>
-	<div id="view_result">
-	</div>
 </div>
 <div id="dock">
 <% @groups.each do |group| %>
@@ -83,6 +78,13 @@
 		<div><%= group.name %> <%= link_to(image_tag('print.png', :size => '20x20', :title => 'Print Group'), {:action => 'print_group', :id => group.id}, :target => '_blank')%> <%= link_to(image_tag('trash_can.png', :size => '20x20', :title => 'Delete Group'), {:action => 'remove_group', :id => group.id}, :remote => true, :confirm => "Are you Sure?")%></div>
 	</div>
 <% end %>
+</div>
+</div>
+<div id="results">
+	<div id="search_results">
+	</div>
+	<div id="view_result">
+	</div>
 </div>
 <% @groups.each do |group| %>
 	<% group.collections.each do |collection| %>
