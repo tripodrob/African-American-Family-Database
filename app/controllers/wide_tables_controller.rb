@@ -275,7 +275,7 @@ class WideTablesController < ApplicationController
       end
       @hyp_id = collection.id
       @cart = collection.hyp_items
-      @group_name = "#{collection.collection_group.name.gsub(' ','_')}"
+      @group_name = "#{collection.collection_group.name}"
       @group_id = collection.collection_group.id
       @validated = collection.validated
       respond_to do |format| 

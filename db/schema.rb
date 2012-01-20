@@ -28,13 +28,6 @@ ActiveRecord::Schema.define(:version => 20120115213006) do
     t.boolean  "validated"
   end
 
-  create_table "groups", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-  end
-
   create_table "hyp_items", :force => true do |t|
     t.integer  "wide_table_id"
     t.string   "hyp_field"
