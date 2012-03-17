@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120115213006) do
+ActiveRecord::Schema.define(:version => 20120316114308) do
 
   create_table "collection_groups", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(:version => 20120115213006) do
     t.datetime "updated_at"
     t.integer  "group_id"
     t.boolean  "validated"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "wide_table_id"
+    t.integer  "user_id"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "hyp_items", :force => true do |t|
@@ -142,6 +150,7 @@ ActiveRecord::Schema.define(:version => 20120115213006) do
     t.string  "value_notes",       :limit => 80
     t.string  "location_person",   :limit => 80
     t.string  "age_group",         :limit => 10, :null => false
+    t.text    "comments"
   end
 
   add_index "src_table_data_wide", ["age"], :name => "age"
@@ -317,6 +326,44 @@ ActiveRecord::Schema.define(:version => 20120115213006) do
     t.string  "x_date_0_year",         :limit => 10,  :null => false
   end
 
+  create_table "st_BirthRecords", :id => false, :force => true do |t|
+    t.integer "ROW_NUM"
+    t.string  "First_Name_Child",                               :limit => 18
+    t.string  "Middle_Name_Child",                              :limit => 10
+    t.string  "Last_Name_Child",                                :limit => 10
+    t.string  "Gender_Child",                                   :limit => 6
+    t.string  "Status_Child",                                   :limit => 5
+    t.string  "Race_Child_calculated",                          :limit => 7
+    t.integer "Birth_Year_Child"
+    t.integer "Birth_Month_Child"
+    t.integer "Birth_Day_Child"
+    t.string  "Birth_Place_Child",                              :limit => 26
+    t.string  "Mothers_First_Name",                             :limit => 19
+    t.string  "Mothers_Last_Name",                              :limit => 11
+    t.string  "Race_Mother_calculated",                         :limit => 7
+    t.string  "Fathers_First_Name",                             :limit => 11
+    t.string  "Fathers_Last_Name",                              :limit => 10
+    t.string  "Fathers_Owners_Occupation",                      :limit => 14
+    t.string  "Race_Father_calculated",                         :limit => 7
+    t.string  "Mother_and_Childs_Owners_First_and_Middle_Name", :limit => 19
+    t.string  "Mother_and_Childs_Owners_Last_Name",             :limit => 20
+    t.string  "Informants_First_Middle_Name_if_not_owner",      :limit => 13
+    t.string  "Informants_Last_Name_if_not_owner",              :limit => 16
+    t.string  "Informants_relationship",                        :limit => 18
+    t.string  "Remarks",                                        :limit => 50
+    t.string  "Record",                                         :limit => 8
+    t.integer "Page"
+    t.integer "Line"
+    t.string  "Parish",                                         :limit => 15
+    t.string  "x_person_0_first_name",                          :limit => 80, :null => false
+    t.string  "x_person_0_title",                               :limit => 80, :null => false
+    t.string  "x_person_1_title",                               :limit => 80, :null => false
+    t.string  "x_person_2_title",                               :limit => 80, :null => false
+    t.string  "x_person_3_title",                               :limit => 80, :null => false
+    t.string  "x_person_4_title",                               :limit => 80, :null => false
+    t.string  "x_date_0_title",                                 :limit => 10, :null => false
+  end
+
   create_table "st_BirthRegister1", :id => false, :force => true do |t|
     t.integer "ROW_NUM"
     t.string  "First Name, Child",                                :limit => 18
@@ -353,6 +400,44 @@ ActiveRecord::Schema.define(:version => 20120115213006) do
     t.string  "x_person_3_title",                                 :limit => 80, :null => false
     t.string  "x_person_4_title",                                 :limit => 80, :null => false
     t.string  "x_date_0_title",                                   :limit => 10, :null => false
+  end
+
+  create_table "st_BirthRegister2", :id => false, :force => true do |t|
+    t.integer "ROW_NUM"
+    t.string  "First_Name_Child",                         :limit => 18
+    t.string  "Middle_NameChild",                         :limit => 10
+    t.string  "LastNameChild",                            :limit => 10
+    t.string  "GenderChild",                              :limit => 6
+    t.string  "StatusChild",                              :limit => 5
+    t.string  "RaceChildCalculated",                      :limit => 7
+    t.integer "BirthYearChild"
+    t.integer "BirthMonthChild"
+    t.integer "BirthDayChild"
+    t.string  "BirthPlaceChild",                          :limit => 26
+    t.string  "MothersFirstName",                         :limit => 19
+    t.string  "MothersLastName",                          :limit => 11
+    t.string  "RaceMotherCalculated",                     :limit => 7
+    t.string  "FathersFirstName",                         :limit => 11
+    t.string  "FathersLastName",                          :limit => 10
+    t.string  "FathersOwnersOccupation",                  :limit => 14
+    t.string  "RaceFatherCalculated",                     :limit => 7
+    t.string  "MotherChildsOwnersFirstMiddleName",        :limit => 19
+    t.string  "MotherChildsOwnersLastName",               :limit => 20
+    t.string  "InformantsFirstMiddleName (if not owner)", :limit => 13
+    t.string  "InformantsLastName",                       :limit => 16
+    t.string  "InformantsRelationship",                   :limit => 18
+    t.string  "Remarks",                                  :limit => 50
+    t.string  "Record",                                   :limit => 8
+    t.integer "Page"
+    t.integer "Line"
+    t.string  "Parish",                                   :limit => 15
+    t.string  "x_person_0_first_name",                    :limit => 80, :null => false
+    t.string  "x_person_0_title",                         :limit => 80, :null => false
+    t.string  "x_person_1_title",                         :limit => 80, :null => false
+    t.string  "x_person_2_title",                         :limit => 80, :null => false
+    t.string  "x_person_3_title",                         :limit => 80, :null => false
+    t.string  "x_person_4_title",                         :limit => 80, :null => false
+    t.string  "x_date_0_title",                           :limit => 10, :null => false
   end
 
   create_table "st_Census_Albemarle_1880", :primary_key => "ROW_NUM", :force => true do |t|

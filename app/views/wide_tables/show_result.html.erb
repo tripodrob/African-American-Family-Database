@@ -30,3 +30,14 @@
 		<% end %>
 	<% end %>
 </table>
+<br><br>
+<%= form_tag({:action => 'update_comments', :id => @wide_table.id}, :remote => true) do%>
+	Comments:<br>
+	<% a = @wide_table.comments.find(:all, :conditions => "user_id != #{current_user.id}") || [] %>
+	<% a.each do |c| %>
+		<%= c.comment %> (<%= c.user.email %>)<br>
+	<% end %>
+	<% c = @wide_table.comments.find(:first, :conditions => "user_id = #{current_user.id}") || Comment.new %>
+  <textarea name="comments" cols="50" rows="5"><%= c.comment %></textarea><br>
+	<%= submit_tag %>
+<% end %>

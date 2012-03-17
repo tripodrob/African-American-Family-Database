@@ -1,12 +1,12 @@
 <table width="100%">
 	<% @cart.each do |hyp|%>
+		<% begin %>
+		<% w = WideTable.find(hyp.wide_table_id)%>
 		<tr>
 			<td>
-				<% w = WideTable.find(hyp.wide_table_id)%>
 				(<%= w.src_table_id %>)
 			</td>				
 			<td>
-				<% w = WideTable.find(hyp.wide_table_id)%>
 				Name: <%= w.to_label %>
 			</td>
 			<td>
@@ -17,6 +17,8 @@
 				<%= link_to(image_tag('minus.png'), {:action => 'remove_hyp', :id => hyp.id}, :remote => true, :class => 'remove_link', :title => 'Remove hypothesis')%>
 			</td>
 		</tr>
+		<% rescue %>
+		<% end %>
 	<% end %>
 	<tr>
 		<td colspan="3" align="left"><input type="checkbox" <%= @validated == true ? 'checked' : ''%> onclick="if (this.checked) {$(this).load('<%= escape_javascript url_for(:action => 'validate_collection', :id => @hyp_id) %>')} else {$(this).load('<%= escape_javascript url_for(:action => 'invalidate_collection', :id => @hyp_id) %>')}">Validated</td>

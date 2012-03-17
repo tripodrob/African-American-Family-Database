@@ -1,5 +1,7 @@
 AafDb::Application.routes.draw do
 
+  resources :comments do as_routes end
+
   resources :collection_groups do as_routes end
 
   resources :groups do as_routes end
@@ -33,6 +35,7 @@ AafDb::Application.routes.draw do
       get 'print_group'
       get 'validate_collection'
       get 'invalidate_collection'
+      post 'update_comments'
     end
   end
 

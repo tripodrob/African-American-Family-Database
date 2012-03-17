@@ -32,9 +32,9 @@ class WideTablesController < ApplicationController
     if params[:last_name] != nil and params[:last_name] != ''
       str += ' and ' if str != ''
       if params[:use_soundex] == '1'
-        str += 'last_name sounds like ?'
+        str += '(last_name sounds like ? or src_table_id=22)'
       else
-        str += 'last_name like ?'
+        str += '(last_name like ? or src_table_id=22)'
       end
       values << "%#{params[:last_name]}%"
       @search_terms += ', ' if @search_terms != ''
@@ -331,5 +331,19 @@ class WideTablesController < ApplicationController
     c.validated = false
     c.save
     render :text => ''
+  end
+  
+  def update_comments
+    # debugger
+    w = WideTable.find params[:id]
+    c = w.comments.find(:first, :conditions => "user_id = #{current_user.id}")
+    if c == nil
+      c = Comment.new
+      c.user = current_user
+      c.wide_table = w
+    end
+    c.comment = params[:comments]
+    c.save
+    render :text => '', :layout => false
   end
 end 

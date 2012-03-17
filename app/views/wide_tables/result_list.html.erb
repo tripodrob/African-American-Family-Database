@@ -24,8 +24,9 @@
 	<th>Race</th>
 	<th>Gender</th>
 	<th>Owner</th>
-	<th>Purchaser</th>
-	<th>Legatee</th>
+	<th>Location person</th>
+	<th>Mother</th>
+	<th>Father</th>
 	<th></th>
 	</thead>
 	<tbody>
@@ -39,9 +40,11 @@
 		<td><%= t.race %></td>
 		<td><%= t.gender %></td>
 		<td><%= t.owner %></td>
-		<td><%= t.purchaser %></td>
-		<td><%= t.legatee %></td>
+		<td><%= t.location_person %></td>
+		<td><%= t.mother %></td>
+		<td><%= t.father %></td>
 		<td><%= link_to('Show', {:action => 'show_result', :id => t.id}, :remote => true )%>
 <% end %>
 	</tbody>
 </table>
+	
