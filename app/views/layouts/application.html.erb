@@ -21,10 +21,14 @@
 </head>
 <body>
 	<div class="header-block">
-		<div class="header-title">The African-American Families Database Project
+		<div class="home">
+			<%= link_to(image_tag('home.png'),'http://centralvirginiahistory.org')%>
+		</div>
+		<div class="header-title"><!-- The African-American Families Database Project -->
+			<span class="header-image"><%= image_tag('header.jpg')%></span>
 		</div>
 		<div class="menu">
-		  <%= render 'devise/menu/registration_items' %>
+		  <%#= render 'devise/menu/registration_items' %>
 		  <%= render 'devise/menu/login_items' %>
 		</div>
 	</div>
