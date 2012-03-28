@@ -12,6 +12,73 @@ class WideTablesController < ApplicationController
     #   @carts += g.collections
     # end
   end
+
+  def adv_search_tables
+    # @tables = SrcTable.find :all
+    # @carts = []
+    # @groups = current_user.collection_groups
+    # @fields = ['first_name','last_name', 'owner','race','gender','birth_year','record_year']
+    # @operators = ['=','>=', '<=', 'includes']
+    # @boolean = ['and', 'or']
+    # # .each do |g|
+    # #   @carts += g.collections
+    # # end
+    render :layout => false
+  end
+  
+  def basic_search
+    render :layout => false
+  end
+  
+  def adv_search
+    size = params['field'].size
+    sql = ''
+    vals = []
+    # (0..size-1).each do |x|
+    params['field'].keys.each do |k|
+      @x = k
+      # debugger
+      if params['value'][k] != nil and params['value'][k] != ''
+        if params['boolean'] != nil and params['boolean'][k] != ''
+          sql += " #{params['boolean'][k]} "
+        end
+        f = params['field'][k]
+        o = params['operator'][k]
+        v = params['value'][k]
+        if o == 'includes'
+          o = 'like'
+          v = "%#{v}%"
+        end
+        sql += "(#{f} #{o} ?)"
+        vals << v
+        @sql = sql
+        # debugger 
+      end
+    end
+    if params[:tables] != nil
+      r_str = ''
+      s_str = ''
+      params[:tables].each do |table|
+        s_str += ' or ' if s_str != ''
+        s_str += 'src_table_id = ?'
+        vals << table
+        r_str += ', ' if r_str != ''
+        r_str += "#{table}"
+      end
+      sql += ' and ' if sql != ''
+      sql += "(#{s_str})"
+    end
+    
+    # debugger
+    @wide_tables = WideTable.find(:all, :conditions => [sql]+vals, :limit => 1000)
+    
+    puts sql
+    # debugger
+    respond_to do |format| 
+      format.js do
+      end
+    end    
+  end
   
   def find_results
     str = ''

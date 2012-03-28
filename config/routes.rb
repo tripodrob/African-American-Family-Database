@@ -36,6 +36,9 @@ AafDb::Application.routes.draw do
       get 'validate_collection'
       get 'invalidate_collection'
       post 'update_comments'
+      get 'adv_search_tables'
+      post 'adv_search'
+      get 'basic_search'
     end
   end
 

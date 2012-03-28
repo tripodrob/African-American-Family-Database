@@ -1,0 +1,81 @@
+<%= form_for :wide_table, :url => {:action => 'find_results'}, :remote => true do %>
+
+<table>
+	<tr>
+		<td>First&nbsp;name</td>
+		<td><input type="text" name="first_name"/></td>
+	</tr>
+	<tr>
+		<td>Last&nbsp;name</td>
+		<td><input type="text" name="last_name"/></td>
+	</tr>
+	<tr>
+		<td>Owner, Purchaser, etc.</td>
+		<td><input type="text" name="owner_purchaser_etc"/></td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align:left;font-weight:normal;">
+			<input type="checkbox" name="use_soundex" value="1"/>
+			Find similar sounding names too.
+		</td>
+	</tr>
+	<tr>
+		<td>Birth Year</td>
+		<td>
+			<input type="text" name="birth_year" size="10"/>
+			<select name="birth_year_range">
+				<option value="">+/- 0</option>
+				<option value="1">+/- 1 yr</option>
+				<option value="5">+/- 5 yrs</option>
+				<option value="10">+/- 10 yrs</option>
+				<option value="25">+/- 25 yrs</option>
+				<option value="50">+/- 50 yrs</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Record&nbsp;Year</td>
+		<td>
+			<input type="text" name="record_year" size="10"/>
+			<input type="text" name="record_year_end" size="10"/>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td class="tiny-text">Enter a second year to search for a range of years.</td>
+	</tr>
+	</table>
+	<!--
+	<p class="note-text">For each of the following options, uncheck all to select all records.  
+	Select one or more to narrow your search to records that contain any of the checked terms.</p>
+	-->
+	<div class="inputs">
+		<b>Race</b><br/>
+		<input type="checkbox" name="race[]" value="B">black (B)</input>
+		<input type="checkbox" name="race[]" value="W">white (W)</input>
+		<input type="checkbox" name="race[]" value="M">mulatto (M)</input>	
+		<br/>
+		<b>Gender</b><br/>
+		<input type="checkbox" name="gender[]" value="female">female</input>
+		<input type="checkbox" name="gender[]" value="male">male</input>
+		<br/>
+		<b>Source Table</b><br/>
+			<input type="checkbox" name="tables[]" value="6">(6)Albemarle Census (1880)<br/>
+			<input type="checkbox" name="tables[]" value="7">(7)Fredericksville Census (1870)<br/>
+			<input type="checkbox" name="tables[]" value="15">(15)Personal Property Tax Burnley (1866-69)<br/>
+			<input type="checkbox" name="tables[]" value="17">(17)Louisa Co. Burnley Slave Lists<br/>
+			<input type="checkbox" name="tables[]" value="18">(18)Church Membership (1851-1880)<br/>
+			<input type="checkbox" name="tables[]" value="20">(20)Birth Records, Mother/Child (1855-66) ed.<br/>
+			<input type="checkbox" name="tables[]" value="21">(21)Marriage (1865-85)<br/>
+			<input type="checkbox" name="tables[]" value="22">(22)Will Books (1834-1865, vol. 23-27)<br/>
+			<input type="checkbox" name="tables[]" value="23">(23)Personal Property Tax Fry District (1867)<br/>
+			<input type="checkbox" name="tables[]" value="24">(24)Voting Register of C-ville (1870)<br/>
+			<input type="checkbox" name="tables[]" value="25">(25)Albemarle Death Records (1866-68)<br/>
+		<br/>
+		<!-- <span style="float:right;"> -->
+		<input type="submit" value="Search"/>
+		<input type="reset" value="Clear"/>
+		<%= link_to_function(button_tag('Advanced Search'), "$('#search_criteria').load('#{url_for(:action => 'adv_search_tables')}')")%>
+		<!-- </span> -->
+	</div>
+<% end %>

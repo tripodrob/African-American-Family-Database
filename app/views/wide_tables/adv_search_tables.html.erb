@@ -1,0 +1,46 @@
+<%#= render :partial => 'adv_search_row', :object => 0, :locals => {:num => 0}%>
+<script>
+  var row=0;
+
+	function add_row() {
+		row += 1;
+		var str = "<span id=\"field_"+row+"\"><select name=\"boolean["+row+"]\"><option value=\"and\">and</option><option value=\"or\">or</option></select><br><select name=\"field["+row+"]\"><option value=\"first_name\">First name</option><option value=\"last_name\">Last name</option><option value=\"owner\">Owner, Purchasers, etc.</option><option value=\"race\">Race</option><option value=\"gender\">Gender</option><option value=\"birth_year\">Birth year</option><option value=\"record_year\">Record year</option></select></select> <select name=\"operator["+row+"]\"><option value=\"=\">=</option><option value=\"&gt;=\">&gt;=</option><option value=\"&lt;=\">&lt;=</option><option value=\"includes\">includes</option></select><input name=\"value["+row+"]\"><%#= image_tag('minus.png') %><br></span>";
+		$("#data1").append(str);
+	}
+</script>
+
+<%= form_tag({:action => 'adv_search'}, :remote => true) do %>
+<div id="data1">
+	<select name="field[0]"><options></options><option value="first_name">First name</option>
+	<option value="last_name">Last name</option>
+	<option value="owner">Owner, Purchases, etc.</option>
+	<option value="race">Race</option>
+	<option value="gender">Gender</option>
+	<option value="birth_year">Birth year</option>
+	<option value="record_year">Record year</option></select>
+	<select name="operator[0]"><options></options><option value="=">=</option>
+	<option value="&gt;=">&gt;=</option>
+	<option value="&lt;=">&lt;=</option>
+	<option value="includes">includes</option></select>
+	<input name="value[0]"><br>
+</div>
+
+<%= link_to_function(button_tag("Add criteria") , 'add_row()')%><br><br>
+
+			<b>Source Table</b><br/>
+				<input type="checkbox" name="tables[]" value="6">(6)Albemarle Census (1880)<br/>
+				<input type="checkbox" name="tables[]" value="7">(7)Fredericksville Census (1870)<br/>
+				<input type="checkbox" name="tables[]" value="15">(15)Personal Property Tax Burnley (1866-69)<br/>
+				<input type="checkbox" name="tables[]" value="17">(17)Louisa Co. Burnley Slave Lists<br/>
+				<input type="checkbox" name="tables[]" value="18">(18)Church Membership (1851-1880)<br/>
+				<input type="checkbox" name="tables[]" value="20">(20)Birth Records, Mother/Child (1855-66) ed.<br/>
+				<input type="checkbox" name="tables[]" value="21">(21)Marriage (1865-85)<br/>
+				<input type="checkbox" name="tables[]" value="22">(22)Will Books (1834-1865, vol. 23-27)<br/>
+				<input type="checkbox" name="tables[]" value="23">(23)Personal Property Tax Fry District (1867)<br/>
+				<input type="checkbox" name="tables[]" value="24">(24)Voting Register of C-ville (1870)<br/>
+				<input type="checkbox" name="tables[]" value="25">(25)Albemarle Death Records (1866-68)<br/>
+			<br/><%= submit_tag('Search')%> 
+			<%= link_to_function(button_tag('Reset'), "$('#search_criteria').load('#{url_for(:action => 'adv_search_tables')}')")%>
+			<%= link_to_function(button_tag('Basic Search'), "$('#search_criteria').load('#{url_for(:action => 'basic_search')}')")%>
+			<%#= link_to_function(button_tag('Reset'), "$('#search_criteria').html(\"#{escape_javascript render(:file => 'wide_tables/adv_search_tables.html.erb')}\")")%>
+<% end %>

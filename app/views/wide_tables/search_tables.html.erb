@@ -68,6 +68,7 @@
 			<!-- <span style="float:right;"> -->
 			<input type="submit" value="Search"/>
 			<input type="reset" value="Clear"/>
+			<%= link_to_function(button_tag('Advanced Search'), "$('#search_criteria').html(\"#{escape_javascript render(:file => 'wide_tables/adv_search_tables.html.erb')}\")")%>
 			<!-- </span> -->
 		</div>
 	<% end %>
